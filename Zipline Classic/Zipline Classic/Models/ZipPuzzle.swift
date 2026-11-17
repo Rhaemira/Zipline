@@ -184,15 +184,24 @@ public struct ZipGame: Sendable {
         }
 
         var visited = Set(path)
+        var searchBudget = 20_000
         guard let current = path.last else { return nil }
-        return continuation(from: current, visited: &visited, nextCheckpoint: nextCheckpoint)?.first
+        return continuation(
+            from: current,
+            visited: &visited,
+            nextCheckpoint: nextCheckpoint,
+            budget: &searchBudget
+        )?.first
     }
 
     private func continuation(
         from current: GridPoint,
         visited: inout Set<GridPoint>,
-        nextCheckpoint: Int
+        nextCheckpoint: Int,
+        budget: inout Int
     ) -> [GridPoint]? {
+        guard budget > 0 else { return nil }
+        budget -= 1
         if visited.count == puzzle.cellCount {
             return puzzle.number(at: current) == puzzle.checkpoints.count ? [] : nil
         }
@@ -222,7 +231,12 @@ public struct ZipGame: Sendable {
         for candidate in candidates {
             visited.insert(candidate)
             let next = puzzle.number(at: candidate) == nextCheckpoint ? nextCheckpoint + 1 : nextCheckpoint
-            if let suffix = continuation(from: candidate, visited: &visited, nextCheckpoint: next) {
+            if let suffix = continuation(
+                from: candidate,
+                visited: &visited,
+                nextCheckpoint: next,
+                budget: &budget
+            ) {
                 return [candidate] + suffix
             }
             visited.remove(candidate)
