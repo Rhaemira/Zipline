@@ -16,6 +16,7 @@ struct ZiplineHomeView: View {
     @State private var difficulty: ZipDifficulty = .medium
     @State private var game = ZipGame(puzzle: .generate(size: 6, difficulty: .medium))
     @State private var showHowTo = false
+    @State private var lastDragPoint: GridPoint?
     @State private var showHint = false
     @State private var hintMessage = "Plan a route that leaves room to visit every square exactly once."
     @State private var showCompletion = false
@@ -119,7 +120,12 @@ struct ZiplineHomeView: View {
                     guard row >= 0, row < size, column >= 0, column < size,
                           value.location.x.truncatingRemainder(dividingBy: stride) <= side,
                           value.location.y.truncatingRemainder(dividingBy: stride) <= side else { return }
-                    handle(GridPoint(row: row, column: column))
+                    let point = GridPoint(row: row, column: column)
+                    guard point != lastDragPoint else { return }
+                    lastDragPoint = point
+                    handle(point)
+                }.onEnded { _ in
+                    lastDragPoint = nil
                 })
             }
             .aspectRatio(1, contentMode: .fit)
@@ -152,7 +158,6 @@ struct ZiplineHomeView: View {
             if isHead { RoundedRectangle(cornerRadius: 11).stroke(.white, lineWidth: 2.5).padding(2) }
         }
         .frame(width: side, height: side).contentShape(Rectangle())
-        .onTapGesture { handle(point) }
         .accessibilityElement().accessibilityLabel(number.map { "Cell, checkpoint \($0)" } ?? "Cell")
         .accessibilityAddTraits(.isButton)
     }
