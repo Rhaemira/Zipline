@@ -130,7 +130,7 @@ struct ZiplineHomeView: View {
                         for (index, point) in points.enumerated() {
                             let center = CGPoint(
                                 x: (proxy.size.width - boardWidth) / 2 + CGFloat(point.column) * (side + gap) + side / 2,
-                                y: CGFloat(point.row) * (side + gap) + side / 2
+                                y: (proxy.size.height - boardWidth) / 2 + CGFloat(point.row) * (side + gap) + side / 2
                             )
                             if index == 0 { route.move(to: center) } else { route.addLine(to: center) }
                         }
@@ -151,11 +151,15 @@ struct ZiplineHomeView: View {
                 .contentShape(Rectangle())
                 .simultaneousGesture(DragGesture(minimumDistance: 0).onChanged { value in
                     let stride = side + gap
-                    let column = Int(value.location.x / stride)
-                    let row = Int(value.location.y / stride)
+                    let originX = (proxy.size.width - boardWidth) / 2
+                    let originY = (proxy.size.height - boardWidth) / 2
+                    let localX = value.location.x - originX
+                    let localY = value.location.y - originY
+                    let column = Int(localX / stride)
+                    let row = Int(localY / stride)
                     guard row >= 0, row < size, column >= 0, column < size,
-                          value.location.x.truncatingRemainder(dividingBy: stride) <= side,
-                          value.location.y.truncatingRemainder(dividingBy: stride) <= side else { return }
+                          localX.truncatingRemainder(dividingBy: stride) <= side,
+                          localY.truncatingRemainder(dividingBy: stride) <= side else { return }
                     let point = GridPoint(row: row, column: column)
                     guard point != lastDragPoint else { return }
                     lastDragPoint = point
