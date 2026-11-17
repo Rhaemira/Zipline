@@ -40,8 +40,8 @@ final class ZipGameTests: XCTestCase {
             let easy = ZipPuzzle.generate(size: size, difficulty: .easy, seed: 1)
             let medium = ZipPuzzle.generate(size: size, difficulty: .medium, seed: 1)
             let hard = ZipPuzzle.generate(size: size, difficulty: .hard, seed: 1)
-            XCTAssertLessThan(easy.checkpoints.count, medium.checkpoints.count)
-            XCTAssertLessThan(medium.checkpoints.count, hard.checkpoints.count)
+            XCTAssertGreaterThan(easy.checkpoints.count, medium.checkpoints.count)
+            XCTAssertGreaterThan(medium.checkpoints.count, hard.checkpoints.count)
         }
     }
 

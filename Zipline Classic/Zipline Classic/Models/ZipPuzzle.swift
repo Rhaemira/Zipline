@@ -24,9 +24,10 @@ public enum ZipDifficulty: String, CaseIterable, Codable, Sendable {
 
     public func checkpointCount(for size: Int) -> Int {
         switch self {
-        case .easy: return max(4, size - 1)
+        // More checkpoints provide more guidance, so Easy deliberately has the most.
+        case .easy: return size + 3
         case .medium: return size + 1
-        case .hard: return size + 3
+        case .hard: return max(4, size - 1)
         }
     }
 }
