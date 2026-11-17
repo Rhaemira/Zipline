@@ -85,32 +85,55 @@ final class ZipGameTests: XCTestCase {
         XCTAssertEqual(game.path, [puzzle.solution[0]])
     }
 
-    func testHintFindsAContinuationAfterThePlayerLeavesReferenceRoute() {
-        let size = 4
-        let solution = (0..<size).flatMap { row in
-            let columns = row.isMultiple(of: 2) ? Array(0..<size) : Array((0..<size).reversed())
-            return columns.map { GridPoint(row: row, column: $0) }
-        }
-        let puzzle = ZipPuzzle(
-            size: size,
-            checkpoints: [1: solution[0], 2: solution[solution.count - 1]],
-            solution: solution,
-            seed: 1
-        )
+    func testHintRewindsAnIncorrectBranchAndReturnsTheKnownGoodRoute() {
+        let puzzle = ZipPuzzle.generate(size: 5, difficulty: .medium, seed: 81)
         var game = ZipGame(puzzle: puzzle)
-        XCTAssertEqual(game.move(to: solution[0]), .accepted)
-        let alternateFirstStep = GridPoint(row: 1, column: 0)
-        XCTAssertEqual(game.move(to: alternateFirstStep), .accepted)
-        XCTAssertNotNil(game.suggestedNextMove)
-
-        while !game.isComplete {
-            guard let next = game.suggestedNextMove else {
-                XCTFail("A valid continuation should be available")
-                return
-            }
-            _ = game.move(to: next)
+        _ = game.move(to: puzzle.solution[0])
+        _ = game.move(to: puzzle.solution[1])
+        _ = game.move(to: puzzle.solution[2])
+        // Force the player off the reference route using an available adjacent edge.
+        let head = puzzle.solution[2]
+        let neighbors = [
+            GridPoint(row: head.row - 1, column: head.column),
+            GridPoint(row: head.row + 1, column: head.column),
+            GridPoint(row: head.row, column: head.column - 1),
+            GridPoint(row: head.row, column: head.column + 1)
+        ]
+        let wrong = neighbors.first {
+            $0.row >= 0 && $0.row < puzzle.size &&
+            $0.column >= 0 && $0.column < puzzle.size &&
+            !game.path.contains($0) && !puzzle.hasWall(between: head, and: $0) &&
+            puzzle.number(at: $0) == nil && $0 != puzzle.solution[3]
         }
-        XCTAssertTrue(game.isComplete)
+        if let wrong { _ = game.move(to: wrong) }
+        let route = game.revealHintRoute()
+        XCTAssertEqual(game.path, Array(puzzle.solution.prefix(game.path.count)))
+        XCTAssertFalse(route.isEmpty)
+        XCTAssertEqual(route.first, puzzle.solution[game.path.count])
+        XCTAssertTrue(zip(game.path + route, (game.path + route).dropFirst()).allSatisfy {
+            abs($0.row - $1.row) + abs($0.column - $1.column) == 1
+        })
+    }
+
+    func testGeneratedWallsNeverBlockTheGuaranteedSolution() {
+        for difficulty in ZipDifficulty.allCases {
+            let puzzle = ZipPuzzle.generate(size: 7, difficulty: difficulty, seed: 123)
+            XCTAssertFalse(puzzle.walls.isEmpty)
+            for pair in zip(puzzle.solution, puzzle.solution.dropFirst()) {
+                XCTAssertFalse(puzzle.hasWall(between: pair.0, and: pair.1))
+            }
+        }
+    }
+
+    func testWallsRejectMovementAcrossBlockedEdges() {
+        let a = GridPoint(row: 0, column: 0)
+        let b = GridPoint(row: 0, column: 1)
+        let solution = [a, b, GridPoint(row: 1, column: 1), GridPoint(row: 1, column: 0)]
+        let puzzle = ZipPuzzle(size: 2, checkpoints: [1: a, 2: solution.last!], solution: solution,
+                               walls: [ZipWall(a, b)], seed: 1)
+        var game = ZipGame(puzzle: puzzle)
+        XCTAssertEqual(game.move(to: a), .accepted)
+        XCTAssertEqual(game.move(to: b), .rejected)
     }
 
     func testCompletedGameRejectsFurtherMoves() {
