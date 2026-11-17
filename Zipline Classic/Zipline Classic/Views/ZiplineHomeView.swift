@@ -127,12 +127,22 @@ struct ZiplineHomeView: View {
                         let points = game.path + hintedPath
                         guard points.count > 1 else { return }
                         var route = Path()
+                        let horizontalOrigin: CGFloat = (proxy.size.width - boardWidth) / 2
+                        let verticalOrigin: CGFloat = (proxy.size.height - boardWidth) / 2
+                        let cellStride: CGFloat = side + gap
+
                         for (index, point) in points.enumerated() {
-                            let center = CGPoint(
-                                x: (proxy.size.width - boardWidth) / 2 + CGFloat(point.column) * (side + gap) + side / 2,
-                                y: (proxy.size.height - boardWidth) / 2 + CGFloat(point.row) * (side + gap) + side / 2
-                            )
-                            if index == 0 { route.move(to: center) } else { route.addLine(to: center) }
+                            let columnOffset: CGFloat = CGFloat(point.column) * cellStride
+                            let rowOffset: CGFloat = CGFloat(point.row) * cellStride
+                            let centerX: CGFloat = horizontalOrigin + columnOffset + side / 2
+                            let centerY: CGFloat = verticalOrigin + rowOffset + side / 2
+                            let center = CGPoint(x: centerX, y: centerY)
+
+                            if index == 0 {
+                                route.move(to: center)
+                            } else {
+                                route.addLine(to: center)
+                            }
                         }
                         context.stroke(route, with: .color(.cyan), style: StrokeStyle(lineWidth: max(4, side * 0.12), lineCap: .round, lineJoin: .round))
                     }
