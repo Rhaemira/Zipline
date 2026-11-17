@@ -1,0 +1,55 @@
+#
+#  ci.yml
+#  Zipline
+#
+#  Created by Amirali Yazdani.
+#
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  core-tests:
+    name: Shared puzzle engine tests
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode 26
+        run: sudo xcode-select -s /Applications/Xcode.app
+      - name: Run package tests
+        run: swift test --package-path Packages/ZiplineCore
+  main-app:
+    name: Main Edition · iOS 17+
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate
+      - name: Build Main Edition
+        run: >-
+          xcodebuild -project Zipline.xcodeproj
+          -scheme Zipline
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO build
+  classic-app:
+    name: Classic Edition · iOS 15+
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate
+      - name: Build Classic Edition
+        run: >-
+          xcodebuild -project Zipline.xcodeproj
+          -scheme ZiplineClassic
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO build
