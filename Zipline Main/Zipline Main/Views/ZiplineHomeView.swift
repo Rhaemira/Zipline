@@ -62,7 +62,7 @@ struct ZiplineHomeView: View {
         HStack(spacing: 12) {
             ZStack {
                 RoundedRectangle(cornerRadius: 15).fill(ZiplineStyle.accentGradient).frame(width: 46, height: 46)
-                Image(systemName: "point.topleft.down.curvedto.point.bottomright.up").font(.system(size: 23, weight: .bold)).foregroundColor(.white)
+                Image(systemName: "arrow.turn.down.right").font(.system(size: 23, weight: .bold)).foregroundColor(.white)
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text("ZIPLINE").font(.system(size: 18, weight: .black, design: .rounded)).tracking(1.6).foregroundColor(ZiplineStyle.ink)
