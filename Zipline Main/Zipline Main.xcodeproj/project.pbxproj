@@ -2,11 +2,11 @@
 {
  archiveVersion = 1; classes = {}; objectVersion = 56;
  objects = {
-  A001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/ZiplineApp.swift"; sourceTree = "<group>"; };
-  A002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/ZiplineHomeView.swift"; sourceTree = "<group>"; };
-  A003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/ZiplineStyle.swift"; sourceTree = "<group>"; };
-  A004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/ZipPuzzle.swift"; sourceTree = "<group>"; };
-  A005 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+  A001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/App/ZiplineApp.swift"; sourceTree = "<group>"; };
+  A002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/Views/ZiplineHomeView.swift"; sourceTree = "<group>"; };
+  A003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/Views/ZiplineStyle.swift"; sourceTree = "<group>"; };
+  A004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/Models/ZipPuzzle.swift"; sourceTree = "<group>"; };
+  A005 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Zipline Main/Assets.xcassets"; sourceTree = "<group>"; };
   A006 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zipline.app"; sourceTree = BUILT_PRODUCTS_DIR; };
   B001 = {isa = PBXBuildFile; fileRef = A001; };
   B002 = {isa = PBXBuildFile; fileRef = A002; };

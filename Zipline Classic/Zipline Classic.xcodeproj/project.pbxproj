@@ -2,11 +2,11 @@
 {
  archiveVersion = 1; classes = {}; objectVersion = 56;
  objects = {
-  A001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/ZiplineClassicApp.swift"; sourceTree = "<group>"; };
-  A002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/ZiplineHomeView.swift"; sourceTree = "<group>"; };
-  A003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/ZiplineStyle.swift"; sourceTree = "<group>"; };
-  A004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/ZipPuzzle.swift"; sourceTree = "<group>"; };
-  A005 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+  A001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/App/ZiplineClassicApp.swift"; sourceTree = "<group>"; };
+  A002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/Views/ZiplineHomeView.swift"; sourceTree = "<group>"; };
+  A003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/Views/ZiplineStyle.swift"; sourceTree = "<group>"; };
+  A004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/Models/ZipPuzzle.swift"; sourceTree = "<group>"; };
+  A005 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Zipline Classic/Assets.xcassets"; sourceTree = "<group>"; };
   A006 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zipline Classic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
   B001 = {isa = PBXBuildFile; fileRef = A001; }; B002 = {isa = PBXBuildFile; fileRef = A002; }; B003 = {isa = PBXBuildFile; fileRef = A003; }; B004 = {isa = PBXBuildFile; fileRef = A004; }; B005 = {isa = PBXBuildFile; fileRef = A005; };
   C001 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B001,B002,B003,B004,); runOnlyForDeploymentPostprocessing = 0; };
