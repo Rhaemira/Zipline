@@ -220,7 +220,7 @@ struct ZiplineHomeView: View {
                 actionButton("Reset", icon: "arrow.counterclockwise", style: .secondary) { game.reset() }
                 actionButton("Hint", icon: "lightbulb", style: .primary) {
                     let route = game.revealHintRoute()
-                    let checkpoint = game.nextCheckpoint
+                    let checkpoint = game.path.isEmpty ? 2 : game.nextCheckpoint
                     if let index = route.firstIndex(where: { game.puzzle.number(at: $0) == checkpoint }) {
                         hintedPath = Array(route.prefix(through: index))
                         hintMessage = "Follow the highlighted route to checkpoint \(checkpoint). Your path has been rewound to the last correct position."
