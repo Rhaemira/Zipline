@@ -35,15 +35,18 @@ public enum ZipDifficulty: String, CaseIterable, Codable, Sendable {
 public struct ZipPuzzle: Equatable, Sendable {
     public let size: Int
     public let checkpoints: [Int: GridPoint]
+    private let checkpointNumbers: [GridPoint: Int]
     public let solution: [GridPoint]
     public let walls: Set<ZipWall>
     public let seed: UInt64
 
     public init(size: Int, checkpoints: [Int: GridPoint], solution: [GridPoint], walls: Set<ZipWall> = [], seed: UInt64) {
-        self.size = size; self.checkpoints = checkpoints; self.solution = solution; self.walls = walls; self.seed = seed
+        self.size = size; self.checkpoints = checkpoints
+        self.checkpointNumbers = Dictionary(uniqueKeysWithValues: checkpoints.map { ($0.value, $0.key) })
+        self.solution = solution; self.walls = walls; self.seed = seed
     }
     public var cellCount: Int { size * size }
-    public func number(at point: GridPoint) -> Int? { checkpoints.first(where: { $0.value == point })?.key }
+    public func number(at point: GridPoint) -> Int? { checkpointNumbers[point] }
     public func hasWall(between a: GridPoint, and b: GridPoint) -> Bool { walls.contains(ZipWall(a, b)) }
 
     public static func generate(size: Int = 6, difficulty: ZipDifficulty = .medium, seed: UInt64 = UInt64.random(in: 1...UInt64.max)) -> ZipPuzzle {
@@ -124,6 +127,7 @@ public enum MoveResult: Equatable { case accepted, backtracked, rejected, comple
 public struct ZipGame: Sendable {
     public private(set) var puzzle: ZipPuzzle
     public private(set) var path: [GridPoint] = []
+    private var visitedCells: Set<GridPoint> = []
     public private(set) var isComplete = false
     public init(puzzle: ZipPuzzle) { self.puzzle = puzzle }
     public var progress: Double { Double(path.count) / Double(puzzle.cellCount) }
@@ -135,29 +139,37 @@ public struct ZipGame: Sendable {
         guard !isComplete else { return [] }
         var common = 0
         while common < path.count && common < puzzle.solution.count && path[common] == puzzle.solution[common] { common += 1 }
-        if common < path.count { path = Array(path.prefix(common)) }
+        if common < path.count { path = Array(path.prefix(common)); visitedCells = Set(path) }
         return Array(puzzle.solution.dropFirst(path.count))
     }
 
     @discardableResult public mutating func move(to point: GridPoint) -> MoveResult {
         guard !isComplete else { return .rejected }
-        if path.count > 1 && path[path.count - 2] == point { path.removeLast(); return .backtracked }
+        if path.count > 1 && path[path.count - 2] == point {
+            let removed = path.removeLast()
+            visitedCells.remove(removed)
+            return .backtracked
+        }
         guard let last = path.last else {
             guard puzzle.number(at: point) == 1 else { return .rejected }
-            path = [point]; return .accepted
+            path = [point]; visitedCells = [point]; return .accepted
         }
         guard abs(last.row - point.row) + abs(last.column - point.column) == 1,
-              !path.contains(point), !puzzle.hasWall(between: last, and: point) else { return .rejected }
+              !visitedCells.contains(point), !puzzle.hasWall(between: last, and: point) else { return .rejected }
         if let number = puzzle.number(at: point), number != nextCheckpoint { return .rejected }
         path.append(point)
+        visitedCells.insert(point)
         if path.count == puzzle.cellCount {
-            guard puzzle.number(at: point) == puzzle.checkpoints.count else { path.removeLast(); return .rejected }
+            guard puzzle.number(at: point) == puzzle.checkpoints.count else { path.removeLast(); visitedCells.remove(point); return .rejected }
             isComplete = true; return .completed
         }
         return .accepted
     }
-    public mutating func undo() { guard !path.isEmpty, !isComplete else { return }; path.removeLast() }
-    public mutating func reset() { path.removeAll(); isComplete = false }
+    public mutating func undo() {
+        guard !path.isEmpty, !isComplete else { return }
+        visitedCells.remove(path.removeLast())
+    }
+    public mutating func reset() { path.removeAll(); visitedCells.removeAll(); isComplete = false }
     public mutating func replace(with puzzle: ZipPuzzle) { self.puzzle = puzzle; reset() }
-    public func isVisited(_ point: GridPoint) -> Bool { path.contains(point) }
+    public func isVisited(_ point: GridPoint) -> Bool { visitedCells.contains(point) }
 }
