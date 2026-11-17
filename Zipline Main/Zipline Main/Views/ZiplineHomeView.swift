@@ -277,9 +277,10 @@ struct ZiplineHomeView: View {
     private func handle(_ point: GridPoint) {
         switch game.move(to: point) {
         case .accepted, .backtracked:
-            if game.path.last == hintedPoint { hintedPoint = nil }
+            hintedPoint = nil
             UISelectionFeedbackGenerator().selectionChanged()
         case .completed:
+            hintedPoint = nil
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             showCompletion = true
         case .rejected:
