@@ -230,10 +230,9 @@ struct ZiplineHomeView: View {
                     }
                 }
             }
-        }
             if !hintedPath.isEmpty {
                 HStack(alignment: .top, spacing: 8) {
-                    Image(systemName: "point.topleft.down.to.point.bottomright.curvepath").foregroundColor(.cyan)
+                    Image(systemName: "lightbulb").foregroundColor(.cyan)
                     Text(hintMessage).font(.system(size: 12, weight: .medium)).foregroundColor(ZiplineStyle.muted)
                     Spacer(minLength: 0)
                     Button("Dismiss") { hintedPath = [] }.font(.system(size: 12, weight: .bold))
