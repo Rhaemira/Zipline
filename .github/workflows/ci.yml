@@ -7,15 +7,25 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [main, fix/standalone-xcode-projects]
   pull_request:
     branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: zipline-ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
+  repository-hygiene:
+    name: Repository integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify project separation and assets
+        run: bash Scripts/verify-repository.sh
   core-tests:
-    name: Shared puzzle engine tests
+    name: Puzzle engine tests
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
@@ -24,32 +34,24 @@ jobs:
       - name: Run package tests
         run: swift test --package-path Packages/ZiplineCore
   main-app:
-    name: Main Edition · iOS 17+
+    name: Zipline Main · iOS 17+
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
-      - name: Install XcodeGen
-        run: brew install xcodegen
-      - name: Generate Xcode project
-        run: xcodegen generate
-      - name: Build Main Edition
+      - name: Build Zipline Main
         run: >-
-          xcodebuild -project Zipline.xcodeproj
-          -scheme Zipline
+          xcodebuild -project 'Zipline Main/Zipline Main.xcodeproj'
+          -scheme 'Zipline Main'
           -destination 'generic/platform=iOS Simulator'
           CODE_SIGNING_ALLOWED=NO build
   classic-app:
-    name: Classic Edition · iOS 15+
+    name: Zipline Classic · iOS 15+
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
-      - name: Install XcodeGen
-        run: brew install xcodegen
-      - name: Generate Xcode project
-        run: xcodegen generate
-      - name: Build Classic Edition
+      - name: Build Zipline Classic
         run: >-
-          xcodebuild -project Zipline.xcodeproj
-          -scheme ZiplineClassic
+          xcodebuild -project 'Zipline Classic/Zipline Classic.xcodeproj'
+          -scheme 'Zipline Classic'
           -destination 'generic/platform=iOS Simulator'
           CODE_SIGNING_ALLOWED=NO build

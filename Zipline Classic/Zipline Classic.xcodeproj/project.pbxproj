@@ -1,0 +1,35 @@
+// !$*UTF8*$!
+// Created by Amirali Yazdani.
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+		038E3BFC5E60584ADF2F56E9 /* ZiplineClassicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/App/ZiplineClassicApp.swift"; sourceTree = "<group>"; };
+		A61A72B762B58DB04B955C7E /* ZiplineHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/Views/ZiplineHomeView.swift"; sourceTree = "<group>"; };
+		A9D59B616B6EC995778A8DCF /* ZiplineStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/Views/ZiplineStyle.swift"; sourceTree = "<group>"; };
+		FBD9E864232E4C78E1A7D2A1 /* ZipPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Classic/Models/ZipPuzzle.swift"; sourceTree = "<group>"; };
+		2EAE2B55395D55BBA3A56FFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Zipline Classic/Assets.xcassets"; sourceTree = "<group>"; };
+		7BA9568EEAD600D1410C1088 /* Zipline Classic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zipline Classic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D7AD67D416E2076303300A7 /* 038E3BFC5E60584ADF2F56E9 in Build */ = {isa = PBXBuildFile; fileRef = 038E3BFC5E60584ADF2F56E9; };
+		256A61B80A49D4E38C89839F /* A61A72B762B58DB04B955C7E in Build */ = {isa = PBXBuildFile; fileRef = A61A72B762B58DB04B955C7E; };
+		5500BD6C0DF774A6C54D8B57 /* A9D59B616B6EC995778A8DCF in Build */ = {isa = PBXBuildFile; fileRef = A9D59B616B6EC995778A8DCF; };
+		F1FA01215E7322C982ED18C9 /* FBD9E864232E4C78E1A7D2A1 in Build */ = {isa = PBXBuildFile; fileRef = FBD9E864232E4C78E1A7D2A1; };
+		8FD113A21F7D0BAA73985FD8 /* 2EAE2B55395D55BBA3A56FFC in Build */ = {isa = PBXBuildFile; fileRef = 2EAE2B55395D55BBA3A56FFC; };
+		945AB9148CB78CE8AB0A466A /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (8D7AD67D416E2076303300A7, 256A61B80A49D4E38C89839F, 5500BD6C0DF774A6C54D8B57, F1FA01215E7322C982ED18C9,); runOnlyForDeploymentPostprocessing = 0; };
+		FBF54762E59D6D10A5614473 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (8FD113A21F7D0BAA73985FD8,); runOnlyForDeploymentPostprocessing = 0; };
+		7A440B059A82593125D709CD /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		387FDA0BE3B08060184E7521 = {isa = PBXGroup; children = (038E3BFC5E60584ADF2F56E9, A61A72B762B58DB04B955C7E, A9D59B616B6EC995778A8DCF, FBD9E864232E4C78E1A7D2A1, 2EAE2B55395D55BBA3A56FFC, D1B43E3968F0937896E49A08,); sourceTree = "<group>"; };
+		D1B43E3968F0937896E49A08 = {isa = PBXGroup; children = (7BA9568EEAD600D1410C1088,); name = Products; sourceTree = "<group>"; };
+		6F5D823A546BD2642C68316A /* Zipline Classic */ = {isa = PBXNativeTarget; buildConfigurationList = 2BC340A04B17F152B0181410; buildPhases = (945AB9148CB78CE8AB0A466A, 7A440B059A82593125D709CD, FBF54762E59D6D10A5614473,); buildRules = (); dependencies = (); name = "Zipline Classic"; productName = "Zipline Classic"; productReference = 7BA9568EEAD600D1410C1088; productType = "com.apple.product-type.application"; };
+		CCCE55D615EBE1ADF17F1060 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 2600; TargetAttributes = {6F5D823A546BD2642C68316A = {CreatedOnToolsVersion = 26.0; }; }; }; buildConfigurationList = 754611F16651D1F341FEFE5C; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base,); mainGroup = 387FDA0BE3B08060184E7521; productRefGroup = D1B43E3968F0937896E49A08; projectDirPath = ""; projectRoot = ""; targets = (6F5D823A546BD2642C68316A,); };
+		8148686D2D89141DA34115EB /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;}; name = Debug; };
+		8992248F8FCC1DF417B2240D /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; SWIFT_COMPILATION_MODE = wholemodule;}; name = Release; };
+		982F7D742EB71E569004E5C3 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Zipline Classic"; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; PRODUCT_BUNDLE_IDENTIFIER = com.amiraliyazdani.zipline.classic; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1";}; name = Debug; };
+		B75E4BD5B5BCEFB2EDCBC016 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Zipline Classic"; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; PRODUCT_BUNDLE_IDENTIFIER = com.amiraliyazdani.zipline.classic; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1"; SWIFT_COMPILATION_MODE = wholemodule;}; name = Release; };
+		754611F16651D1F341FEFE5C = {isa = XCConfigurationList; buildConfigurations = (8148686D2D89141DA34115EB, 8992248F8FCC1DF417B2240D,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		2BC340A04B17F152B0181410 = {isa = XCConfigurationList; buildConfigurations = (982F7D742EB71E569004E5C3, B75E4BD5B5BCEFB2EDCBC016,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+	};
+	rootObject = CCCE55D615EBE1ADF17F1060 /* Project object */;
+}

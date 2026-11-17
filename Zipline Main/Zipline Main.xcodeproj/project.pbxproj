@@ -1,0 +1,35 @@
+// !$*UTF8*$!
+// Created by Amirali Yazdani.
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+		4136329C883D8B72A7561140 /* ZiplineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/App/ZiplineApp.swift"; sourceTree = "<group>"; };
+		93FAED446228FB030E151358 /* ZiplineHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/Views/ZiplineHomeView.swift"; sourceTree = "<group>"; };
+		6805411EFC30260E88D09A76 /* ZiplineStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/Views/ZiplineStyle.swift"; sourceTree = "<group>"; };
+		7FB16667A2237BF33F199C47 /* ZipPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Zipline Main/Models/ZipPuzzle.swift"; sourceTree = "<group>"; };
+		87065BE2F9919CD1B72664D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Zipline Main/Assets.xcassets"; sourceTree = "<group>"; };
+		CF36461BCF1DD9786469F3BA /* Zipline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zipline.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		426FB79DFCF435943DAF534B /* 4136329C883D8B72A7561140 in Build */ = {isa = PBXBuildFile; fileRef = 4136329C883D8B72A7561140; };
+		F681950EF1CE7C7B084B8E9E /* 93FAED446228FB030E151358 in Build */ = {isa = PBXBuildFile; fileRef = 93FAED446228FB030E151358; };
+		250AC0CA3C42E44F493171E2 /* 6805411EFC30260E88D09A76 in Build */ = {isa = PBXBuildFile; fileRef = 6805411EFC30260E88D09A76; };
+		6888288A50353D9A29D5296B /* 7FB16667A2237BF33F199C47 in Build */ = {isa = PBXBuildFile; fileRef = 7FB16667A2237BF33F199C47; };
+		5ECE16C382E7ECB7FA884D44 /* 87065BE2F9919CD1B72664D4 in Build */ = {isa = PBXBuildFile; fileRef = 87065BE2F9919CD1B72664D4; };
+		96D74D25815ED0759FAEBF35 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (426FB79DFCF435943DAF534B, F681950EF1CE7C7B084B8E9E, 250AC0CA3C42E44F493171E2, 6888288A50353D9A29D5296B,); runOnlyForDeploymentPostprocessing = 0; };
+		49A19F9337161A8298D91BB0 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (5ECE16C382E7ECB7FA884D44,); runOnlyForDeploymentPostprocessing = 0; };
+		55C1FD9A4A0F6E11B6C1D2F0 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		4785049D731C1AE71A621A40 = {isa = PBXGroup; children = (4136329C883D8B72A7561140, 93FAED446228FB030E151358, 6805411EFC30260E88D09A76, 7FB16667A2237BF33F199C47, 87065BE2F9919CD1B72664D4, 843A6D12D313753EFD115BCB,); sourceTree = "<group>"; };
+		843A6D12D313753EFD115BCB = {isa = PBXGroup; children = (CF36461BCF1DD9786469F3BA,); name = Products; sourceTree = "<group>"; };
+		A104E2A550EDE0D184910429 /* Zipline */ = {isa = PBXNativeTarget; buildConfigurationList = D31AEA68B03E3E0C67A1FA24; buildPhases = (96D74D25815ED0759FAEBF35, 55C1FD9A4A0F6E11B6C1D2F0, 49A19F9337161A8298D91BB0,); buildRules = (); dependencies = (); name = "Zipline"; productName = "Zipline"; productReference = CF36461BCF1DD9786469F3BA; productType = "com.apple.product-type.application"; };
+		DA7AE5399F31D2FE436A3E96 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 2600; TargetAttributes = {A104E2A550EDE0D184910429 = {CreatedOnToolsVersion = 26.0; }; }; }; buildConfigurationList = 52656962865D4F72BD8E335C; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base,); mainGroup = 4785049D731C1AE71A621A40; productRefGroup = 843A6D12D313753EFD115BCB; projectDirPath = ""; projectRoot = ""; targets = (A104E2A550EDE0D184910429,); };
+		78F8DA7F21E5C1D7552D0281 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;}; name = Debug; };
+		5ED5B143F1B2BF36CA235C29 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; SWIFT_COMPILATION_MODE = wholemodule;}; name = Release; };
+		DBCF39C44A586B654C493D6B /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Zipline"; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.amiraliyazdani.zipline; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2";}; name = Debug; };
+		85A9CC1D0D8DDCF6DC479B68 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Zipline"; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.amiraliyazdani.zipline; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; SWIFT_COMPILATION_MODE = wholemodule;}; name = Release; };
+		52656962865D4F72BD8E335C = {isa = XCConfigurationList; buildConfigurations = (78F8DA7F21E5C1D7552D0281, 5ED5B143F1B2BF36CA235C29,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		D31AEA68B03E3E0C67A1FA24 = {isa = XCConfigurationList; buildConfigurations = (DBCF39C44A586B654C493D6B, 85A9CC1D0D8DDCF6DC479B68,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+	};
+	rootObject = DA7AE5399F31D2FE436A3E96 /* Project object */;
+}

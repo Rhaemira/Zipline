@@ -1,14 +1,15 @@
 # Created by Amirali Yazdani.
-# Xcode
+# Xcode user state and build products
 .DS_Store
 *.xcuserstate
 xcuserdata/
 DerivedData/
 *.xcarchive
 *.ipa
+
 # Swift Package Manager
 .build/
 .swiftpm/
-# XcodeGen output
-Zipline.xcodeproj/
-*.xcodeproj/
+
+# Generated XcodeGen project (the two checked-in native projects are intentional)
+/Zipline.xcodeproj/
