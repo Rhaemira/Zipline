@@ -16,7 +16,6 @@ struct ZiplineHomeView: View {
     @State private var game = ZipGame(puzzle: .generate(size: 6, difficulty: .medium))
     @State private var showHowTo = false
     @State private var lastDragPoint: GridPoint?
-    @State private var showHint = false
     @State private var hintedPath: [GridPoint] = []
     @State private var hintMessage = "Plan a route that leaves room to visit every square exactly once."
     @State private var showCompletion = false
@@ -94,7 +93,7 @@ struct ZiplineHomeView: View {
             }
             VStack(alignment: .leading, spacing: 3) {
                 Text("Meet Zip").font(.system(size: 14, weight: .bold, design: .rounded)).foregroundColor(ZiplineStyle.ink)
-                Text("Need a nudge? Hint lights up a safe next square.")
+                Text("Need a nudge? Hint traces a route to the next checkpoint.")
                     .font(.system(size: 12, weight: .medium)).foregroundColor(ZiplineStyle.muted)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -232,8 +231,14 @@ struct ZiplineHomeView: View {
                 }
             }
         }
-        if !hintedPath.isEmpty {
-            // Keep the hint on the board rather than hiding it in a modal alert.
+            if !hintedPath.isEmpty {
+                HStack(alignment: .top, spacing: 8) {
+                    Image(systemName: "point.topleft.down.to.point.bottomright.curvepath").foregroundColor(.cyan)
+                    Text(hintMessage).font(.system(size: 12, weight: .medium)).foregroundColor(ZiplineStyle.muted)
+                    Spacer(minLength: 0)
+                    Button("Dismiss") { hintedPath = [] }.font(.system(size: 12, weight: .bold))
+                }
+            }
         }
         .padding(16).ziplineCardSurface(modern: modernExperience, radius: 24)
     }
@@ -304,7 +309,7 @@ struct ZiplineHomeView: View {
             hintedPath = []
             UISelectionFeedbackGenerator().selectionChanged()
         case .completed:
-            hintedPoint = nil
+            hintedPath = []
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             showCompletion = true
         case .rejected:
@@ -313,7 +318,7 @@ struct ZiplineHomeView: View {
     }
 
     private func newPuzzle() {
-        hintedPoint = nil
+        hintedPath = []
         game.replace(with: .generate(size: size, difficulty: difficulty))
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
