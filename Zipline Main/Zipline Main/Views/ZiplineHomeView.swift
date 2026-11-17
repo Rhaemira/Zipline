@@ -17,7 +17,7 @@ struct ZiplineHomeView: View {
     @State private var showHowTo = false
     @State private var lastDragPoint: GridPoint?
     @State private var showHint = false
-    @State private var hintedPoint: GridPoint?
+    @State private var hintedPath: [GridPoint] = []
     @State private var hintMessage = "Plan a route that leaves room to visit every square exactly once."
     @State private var showCompletion = false
 
@@ -50,9 +50,6 @@ struct ZiplineHomeView: View {
         .preferredColorScheme(preferredScheme)
         .animation(reduceMotion ? nil : .spring(response: 0.34, dampingFraction: 0.78), value: game.path)
         .sheet(isPresented: $showHowTo) { instructions }
-        .alert("A little nudge", isPresented: $showHint) {
-            Button("Got it", role: .cancel) { }
-        } message: { Text(hintMessage) }
         .alert("Brilliant!", isPresented: $showCompletion) {
             Button("Play again") { newPuzzle() }
         } message: { Text("You zipped through the whole grid. Ready for another?") }
@@ -181,12 +178,12 @@ struct ZiplineHomeView: View {
                 Text("\(number)").font(.system(size: side * 0.28, weight: .bold, design: .rounded)).foregroundColor(visited ? .white : ZiplineStyle.ink)
             } else if visited { Circle().fill(.white.opacity(0.8)).frame(width: side * 0.12) }
             if isHead { RoundedRectangle(cornerRadius: 11).stroke(.white, lineWidth: 2.5).padding(2) }
-            if point == hintedPoint {
+            if hintedPath.contains(point) {
+                RoundedRectangle(cornerRadius: 11, style: .continuous).fill(Color.cyan.opacity(0.20))
                 RoundedRectangle(cornerRadius: 11, style: .continuous)
-                    .stroke(ZiplineStyle.accent, lineWidth: 3)
-                    .shadow(color: ZiplineStyle.accent.opacity(0.7), radius: 7)
-                    .padding(1)
+                    .stroke(Color.cyan, style: StrokeStyle(lineWidth: 3, dash: [5, 3])).padding(1)
             }
+            wallEdges(for: point)
         }
         .frame(width: side, height: side).contentShape(Rectangle())
         .accessibilityElement().accessibilityLabel(number.map { "Cell, checkpoint \($0)" } ?? "Cell")
@@ -223,18 +220,45 @@ struct ZiplineHomeView: View {
                 actionButton("Undo", icon: "arrow.uturn.backward", style: .secondary) { game.undo() }
                 actionButton("Reset", icon: "arrow.counterclockwise", style: .secondary) { game.reset() }
                 actionButton("Hint", icon: "lightbulb", style: .primary) {
-                    if let target = game.suggestedNextMove {
-                        hintedPoint = target
-                        hintMessage = "Look for the glowing square. It marks a safe next move for your current route. Keep your path connected and visit the checkpoints in order."
+                    let route = game.revealHintRoute()
+                    let checkpoint = game.nextCheckpoint
+                    if let index = route.firstIndex(where: { game.puzzle.number(at: $0) == checkpoint }) {
+                        hintedPath = Array(route.prefix(through: index))
+                        hintMessage = "Follow the highlighted route to checkpoint \\(checkpoint). Your path has been rewound to the last correct position."
                     } else {
-                        hintedPoint = nil
-                        hintMessage = "This route has no complete solution. Undo a few steps and try a different turn."
+                        hintedPath = route
+                        hintMessage = "Follow the highlighted route to continue the puzzle."
                     }
-                    showHint = true
                 }
             }
         }
+        if !hintedPath.isEmpty {
+            // Keep the hint on the board rather than hiding it in a modal alert.
+        }
         .padding(16).ziplineCardSurface(modern: modernExperience, radius: 24)
+    }
+
+    @ViewBuilder private func wallEdges(for point: GridPoint) -> some View {
+        let top = GridPoint(row: point.row - 1, column: point.column)
+        let bottom = GridPoint(row: point.row + 1, column: point.column)
+        let left = GridPoint(row: point.row, column: point.column - 1)
+        let right = GridPoint(row: point.row, column: point.column + 1)
+        ZStack {
+            if point.row > 0 && game.puzzle.hasWall(between: point, and: top) {
+                VStack { Rectangle().fill(ZiplineStyle.ink.opacity(0.9)).frame(height: 5); Spacer(minLength: 0) }
+            }
+            if point.row + 1 < size && game.puzzle.hasWall(between: point, and: bottom) {
+                VStack { Spacer(minLength: 0); Rectangle().fill(ZiplineStyle.ink.opacity(0.9)).frame(height: 5) }
+            }
+            if point.column > 0 && game.puzzle.hasWall(between: point, and: left) {
+                HStack { Rectangle().fill(ZiplineStyle.ink.opacity(0.9)).frame(width: 5); Spacer(minLength: 0) }
+            }
+            if point.column + 1 < size && game.puzzle.hasWall(between: point, and: right) {
+                HStack { Spacer(minLength: 0); Rectangle().fill(ZiplineStyle.ink.opacity(0.9)).frame(width: 5) }
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
+        .allowsHitTesting(false)
     }
 
     private enum ActionStyle { case primary, secondary }
@@ -277,7 +301,7 @@ struct ZiplineHomeView: View {
     private func handle(_ point: GridPoint) {
         switch game.move(to: point) {
         case .accepted, .backtracked:
-            hintedPoint = nil
+            hintedPath = []
             UISelectionFeedbackGenerator().selectionChanged()
         case .completed:
             hintedPoint = nil
