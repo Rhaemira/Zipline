@@ -173,6 +173,76 @@ public struct ZipGame: Sendable {
         (path.compactMap { puzzle.number(at: $0) }.max() ?? 0) + 1
     }
 
+    /// Returns a safe next cell for the current route, including routes that differ
+    /// from the generated reference solution. The search is only run when a hint is requested.
+    public var suggestedNextMove: GridPoint? {
+        guard !isComplete, path.count < puzzle.cellCount else { return nil }
+        if path.isEmpty { return puzzle.checkpoints[1] }
+        if path.count < puzzle.solution.count,
+           path.elementsEqual(puzzle.solution.prefix(path.count)) {
+            return puzzle.solution[path.count]
+        }
+
+        var visited = Set(path)
+        guard let current = path.last else { return nil }
+        return continuation(from: current, visited: &visited, nextCheckpoint: nextCheckpoint)?.first
+    }
+
+    private func continuation(
+        from current: GridPoint,
+        visited: inout Set<GridPoint>,
+        nextCheckpoint: Int
+    ) -> [GridPoint]? {
+        if visited.count == puzzle.cellCount {
+            return puzzle.number(at: current) == puzzle.checkpoints.count ? [] : nil
+        }
+
+        let candidates = [
+            GridPoint(row: current.row - 1, column: current.column),
+            GridPoint(row: current.row + 1, column: current.column),
+            GridPoint(row: current.row, column: current.column - 1),
+            GridPoint(row: current.row, column: current.column + 1)
+        ]
+        .filter { candidate in
+            candidate.row >= 0 && candidate.row < puzzle.size &&
+            candidate.column >= 0 && candidate.column < puzzle.size &&
+            !visited.contains(candidate) &&
+            (puzzle.number(at: candidate) == nil || puzzle.number(at: candidate) == nextCheckpoint)
+        }
+        .sorted { lhs, rhs in
+            let lhsDegree = availableNeighbors(of: lhs, visited: visited)
+            let rhsDegree = availableNeighbors(of: rhs, visited: visited)
+            if lhsDegree == rhsDegree {
+                if lhs.row == rhs.row { return lhs.column < rhs.column }
+                return lhs.row < rhs.row
+            }
+            return lhsDegree < rhsDegree
+        }
+
+        for candidate in candidates {
+            visited.insert(candidate)
+            let next = puzzle.number(at: candidate) == nextCheckpoint ? nextCheckpoint + 1 : nextCheckpoint
+            if let suffix = continuation(from: candidate, visited: &visited, nextCheckpoint: next) {
+                return [candidate] + suffix
+            }
+            visited.remove(candidate)
+        }
+        return nil
+    }
+
+    private func availableNeighbors(of point: GridPoint, visited: Set<GridPoint>) -> Int {
+        [
+            GridPoint(row: point.row - 1, column: point.column),
+            GridPoint(row: point.row + 1, column: point.column),
+            GridPoint(row: point.row, column: point.column - 1),
+            GridPoint(row: point.row, column: point.column + 1)
+        ].filter {
+            $0.row >= 0 && $0.row < puzzle.size &&
+            $0.column >= 0 && $0.column < puzzle.size &&
+            !visited.contains($0)
+        }.count
+    }
+
     @discardableResult
     public mutating func move(to point: GridPoint) -> MoveResult {
         guard !isComplete else { return .rejected }

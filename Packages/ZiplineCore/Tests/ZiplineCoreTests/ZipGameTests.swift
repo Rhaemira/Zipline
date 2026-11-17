@@ -85,6 +85,34 @@ final class ZipGameTests: XCTestCase {
         XCTAssertEqual(game.path, [puzzle.solution[0]])
     }
 
+    func testHintFindsAContinuationAfterThePlayerLeavesReferenceRoute() {
+        let size = 4
+        let solution = (0..<size).flatMap { row in
+            let columns = row.isMultiple(of: 2) ? Array(0..<size) : Array((0..<size).reversed())
+            return columns.map { GridPoint(row: row, column: $0) }
+        }
+        let puzzle = ZipPuzzle(
+            size: size,
+            checkpoints: [1: solution[0], 2: solution[solution.count - 1]],
+            solution: solution,
+            seed: 1
+        )
+        var game = ZipGame(puzzle: puzzle)
+        XCTAssertEqual(game.move(to: solution[0]), .accepted)
+        let alternateFirstStep = GridPoint(row: 1, column: 0)
+        XCTAssertEqual(game.move(to: alternateFirstStep), .accepted)
+        XCTAssertNotNil(game.suggestedNextMove)
+
+        while !game.isComplete {
+            guard let next = game.suggestedNextMove else {
+                XCTFail("A valid continuation should be available")
+                return
+            }
+            _ = game.move(to: next)
+        }
+        XCTAssertTrue(game.isComplete)
+    }
+
     func testCompletedGameRejectsFurtherMoves() {
         let puzzle = ZipPuzzle.generate(size: 4, difficulty: .easy, seed: 19)
         var game = ZipGame(puzzle: puzzle)

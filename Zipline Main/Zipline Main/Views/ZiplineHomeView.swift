@@ -198,9 +198,13 @@ struct ZiplineHomeView: View {
                 actionButton("Undo", icon: "arrow.uturn.backward", style: .secondary) { game.undo() }
                 actionButton("Reset", icon: "arrow.counterclockwise", style: .secondary) { game.reset() }
                 actionButton("Hint", icon: "lightbulb", style: .primary) {
-                    let targetIndex = min(game.path.count, game.puzzle.solution.count - 1)
-                    hintedPoint = game.puzzle.solution[targetIndex]
-                    hintMessage = "Look for the glowing square. It marks one safe next move; keep your route connected and continue through the checkpoints in order."
+                    if let target = game.suggestedNextMove {
+                        hintedPoint = target
+                        hintMessage = "Look for the glowing square. It marks a safe next move for your current route. Keep your path connected and visit the checkpoints in order."
+                    } else {
+                        hintedPoint = nil
+                        hintMessage = "This route has no complete solution. Undo a few steps and try a different turn."
+                    }
                     showHint = true
                 }
             }
