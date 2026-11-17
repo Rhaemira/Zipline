@@ -110,8 +110,8 @@ final class ZipGameTests: XCTestCase {
         XCTAssertEqual(game.path, Array(puzzle.solution.prefix(game.path.count)))
         XCTAssertFalse(route.isEmpty)
         XCTAssertEqual(route.first, puzzle.solution[game.path.count])
-        XCTAssertTrue(zip(game.path + route, (game.path + route).dropFirst()).allSatisfy {
-            abs($0.row - $1.row) + abs($0.column - $1.column) == 1
+        XCTAssertTrue(zip(game.path + route, (game.path + route).dropFirst()).allSatisfy { pair in
+            abs(pair.0.row - pair.1.row) + abs(pair.0.column - pair.1.column) == 1
         })
     }
 
