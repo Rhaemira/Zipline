@@ -24,7 +24,9 @@ No XcodeGen or project generation step is required. Classic targets iOS 15 and s
 ## Features
 - 4×4 through 8×8 boards with calibrated guidance: Easy has more checkpoints; Hard has fewer.
 - Drag or tap adjacent cells while visiting numbered checkpoints in order.
-- Guaranteed Hamiltonian solution for generated puzzles.
+- Randomized boards with thick wall barriers between neighboring cells; walls block movement across that edge.
+- Every generated board retains a guaranteed complete Hamiltonian route, and walls are never placed on that route.
+- Drag back or use Undo to retrace; Hint automatically rewinds a wrong branch to the last correct point and highlights the route to the next numbered checkpoint.
 - Undo, reset, new puzzle, progress feedback, and contextual hints.
 - System, Light, and Dark appearance settings.
 - Haptics and Reduce Motion support.
