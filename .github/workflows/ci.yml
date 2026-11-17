@@ -13,6 +13,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: zipline-ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   repository-hygiene:
     name: Repository integrity
