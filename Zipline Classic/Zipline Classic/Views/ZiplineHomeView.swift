@@ -17,6 +17,7 @@ struct ZiplineHomeView: View {
     @State private var showHowTo = false
     @State private var lastDragPoint: GridPoint?
     @State private var showHint = false
+    @State private var hintedPoint: GridPoint?
     @State private var hintMessage = "Plan a route that leaves room to visit every square exactly once."
     @State private var showCompletion = false
 
@@ -155,10 +156,17 @@ struct ZiplineHomeView: View {
                 Text("\(number)").font(.system(size: side * 0.28, weight: .bold, design: .rounded)).foregroundColor(visited ? .white : ZiplineStyle.ink)
             } else if visited { Circle().fill(.white.opacity(0.8)).frame(width: side * 0.12) }
             if isHead { RoundedRectangle(cornerRadius: 11).stroke(.white, lineWidth: 2.5).padding(2) }
+            if point == hintedPoint {
+                RoundedRectangle(cornerRadius: 11, style: .continuous)
+                    .stroke(ZiplineStyle.accent, lineWidth: 3)
+                    .shadow(color: ZiplineStyle.accent.opacity(0.7), radius: 7)
+                    .padding(1)
+            }
         }
         .frame(width: side, height: side).contentShape(Rectangle())
         .accessibilityElement().accessibilityLabel(number.map { "Cell, checkpoint \($0)" } ?? "Cell")
         .accessibilityAddTraits(.isButton)
+        .accessibilityAction(.activate) { handle(point) }
     }
 
     private var controls: some View {
@@ -190,8 +198,9 @@ struct ZiplineHomeView: View {
                 actionButton("Undo", icon: "arrow.uturn.backward", style: .secondary) { game.undo() }
                 actionButton("Reset", icon: "arrow.counterclockwise", style: .secondary) { game.reset() }
                 actionButton("Hint", icon: "lightbulb", style: .primary) {
-                    let target = game.puzzle.solution[min(game.path.count, game.puzzle.solution.count - 1)]
-                    hintMessage = "Your next step is row \(target.row + 1), column \(target.column + 1). Keep the path open for the remaining cells."
+                    let targetIndex = min(game.path.count, game.puzzle.solution.count - 1)
+                    hintedPoint = game.puzzle.solution[targetIndex]
+                    hintMessage = "Look for the glowing square. It marks one safe next move; keep your route connected and continue through the checkpoints in order."
                     showHint = true
                 }
             }
@@ -238,7 +247,9 @@ struct ZiplineHomeView: View {
 
     private func handle(_ point: GridPoint) {
         switch game.move(to: point) {
-        case .accepted, .backtracked: UISelectionFeedbackGenerator().selectionChanged()
+        case .accepted, .backtracked:
+            if game.path.last == hintedPoint { hintedPoint = nil }
+            UISelectionFeedbackGenerator().selectionChanged()
         case .completed:
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             showCompletion = true
@@ -248,6 +259,7 @@ struct ZiplineHomeView: View {
     }
 
     private func newPuzzle() {
+        hintedPoint = nil
         game.replace(with: .generate(size: size, difficulty: difficulty))
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
