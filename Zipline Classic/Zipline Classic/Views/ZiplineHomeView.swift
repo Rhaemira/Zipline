@@ -19,6 +19,7 @@ struct ZiplineHomeView: View {
     @State private var hintedPath: [GridPoint] = []
     @State private var hintMessage = "Plan a route that leaves room to visit every square exactly once."
     @State private var showCompletion = false
+    @State private var isGeneratingPuzzle = false
 
     init(modernExperience: Bool = false) { self.modernExperience = modernExperience }
 
@@ -47,7 +48,6 @@ struct ZiplineHomeView: View {
             }
         }
         .preferredColorScheme(preferredScheme)
-        .animation(reduceMotion ? nil : .spring(response: 0.34, dampingFraction: 0.78), value: game.path)
         .sheet(isPresented: $showHowTo) { instructions }
         .alert("Brilliant!", isPresented: $showCompletion) {
             Button("Play again") { newPuzzle() }
@@ -224,7 +224,7 @@ struct ZiplineHomeView: View {
             HStack {
                 Text("MAKE IT YOURS").font(.system(size: 10, weight: .bold)).tracking(1.4).foregroundColor(ZiplineStyle.muted)
                 Spacer()
-                Button("New puzzle", action: newPuzzle).font(.system(size: 13, weight: .bold)).foregroundColor(ZiplineStyle.accent)
+                Button("New puzzle", action: newPuzzle).font(.system(size: 13, weight: .bold)).foregroundColor(ZiplineStyle.accent).disabled(isGeneratingPuzzle)
             }
             HStack(spacing: 8) {
                 ForEach([4, 5, 6, 7, 8], id: \.self) { value in
@@ -232,7 +232,7 @@ struct ZiplineHomeView: View {
                         Text("\(value)×\(value)").font(.system(size: 12, weight: .bold, design: .rounded))
                             .foregroundColor(size == value ? .white : ZiplineStyle.muted).frame(maxWidth: .infinity).padding(.vertical, 11)
                             .background(size == value ? ZiplineStyle.accent : ZiplineStyle.surface, in: RoundedRectangle(cornerRadius: 11))
-                    }
+                    }.disabled(isGeneratingPuzzle)
                 }
             }
             HStack(spacing: 8) {
@@ -241,7 +241,7 @@ struct ZiplineHomeView: View {
                         Text(value.rawValue).font(.system(size: 13, weight: .semibold))
                             .foregroundColor(difficulty == value ? ZiplineStyle.accent : ZiplineStyle.muted).frame(maxWidth: .infinity).padding(.vertical, 12)
                             .background(difficulty == value ? ZiplineStyle.accent.opacity(0.13) : ZiplineStyle.surface, in: RoundedRectangle(cornerRadius: 12))
-                    }
+                    }.disabled(isGeneratingPuzzle)
                 }
             }
             HStack(spacing: 10) {
@@ -347,8 +347,19 @@ struct ZiplineHomeView: View {
     }
 
     private func newPuzzle() {
+        guard !isGeneratingPuzzle else { return }
+        isGeneratingPuzzle = true
         hintedPath = []
-        game.replace(with: .generate(size: size, difficulty: difficulty))
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        let requestedSize = size
+        let requestedDifficulty = difficulty
+
+        Task {
+            let puzzle = await Task.detached(priority: .userInitiated) {
+                ZipPuzzle.generate(size: requestedSize, difficulty: requestedDifficulty)
+            }.value
+            game.replace(with: puzzle)
+            isGeneratingPuzzle = false
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        }
     }
 }
