@@ -22,7 +22,7 @@ Zipline is distributed as two independent iOS apps. Each edition has its own dir
 No XcodeGen or project generation step is required. Classic targets iOS 15 and supports iPhone 6s running iOS 15 or later.
 
 ## Features
-- 4×4 through 8×8 boards with Easy, Medium, and Hard checkpoint layouts.
+- 4×4 through 8×8 boards with calibrated guidance: Easy has more checkpoints; Hard has fewer.
 - Drag or tap adjacent cells while visiting numbered checkpoints in order.
 - Guaranteed Hamiltonian solution for generated puzzles.
 - Undo, reset, new puzzle, progress feedback, and contextual hints.

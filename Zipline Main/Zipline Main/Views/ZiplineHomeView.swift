@@ -35,6 +35,7 @@ struct ZiplineHomeView: View {
                         Text("Connect the numbers. Fill the board. Make every move count.")
                             .font(.system(size: 15)).foregroundColor(ZiplineStyle.muted)
                     }
+                    guideCard
                     boardCard
                     controls
                     HStack {
@@ -82,6 +83,30 @@ struct ZiplineHomeView: View {
             }
             .accessibilityLabel("Appearance and help")
         }
+    }
+
+    private var guideCard: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                Circle().fill(ZiplineStyle.accentGradient).frame(width: 44, height: 44)
+                HStack(spacing: 5) {
+                    Circle().fill(.white).frame(width: 4, height: 4)
+                    Circle().fill(.white).frame(width: 4, height: 4)
+                }.offset(y: -4)
+                Capsule().stroke(.white, lineWidth: 2).frame(width: 10, height: 5).offset(y: 5)
+            }
+            VStack(alignment: .leading, spacing: 3) {
+                Text("Meet Zip").font(.system(size: 14, weight: .bold, design: .rounded)).foregroundColor(ZiplineStyle.ink)
+                Text("Need a nudge? Hint lights up a safe next square.")
+                    .font(.system(size: 12, weight: .medium)).foregroundColor(ZiplineStyle.muted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+            Image(systemName: "sparkles").font(.system(size: 17, weight: .semibold)).foregroundColor(ZiplineStyle.accent)
+        }
+        .padding(13)
+        .ziplineCardSurface(modern: modernExperience, radius: 22)
+        .accessibilityElement(children: .combine)
     }
 
     private var boardCard: some View {
