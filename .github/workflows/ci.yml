@@ -1,3 +1,9 @@
+#
+#  ci.yml
+#  Zipline
+#
+#  Created by Amirali Yazdani.
+#
 name: CI
 on:
   push:
@@ -13,6 +19,8 @@ jobs:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
+      - name: Select Xcode 26
+        run: sudo xcode-select -s /Applications/Xcode.app
       - name: Run package tests
         run: swift test --package-path Packages/ZiplineCore
   main-app:
@@ -21,11 +29,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Zipline Main
-        run: xcodebuild -project 'Zipline Main/Zipline Main.xcodeproj' -scheme 'Zipline Main' -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+        run: >-
+          xcodebuild -project 'Zipline Main/Zipline Main.xcodeproj'
+          -scheme 'Zipline Main'
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO build
   classic-app:
     name: Zipline Classic · iOS 15+
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
       - name: Build Zipline Classic
-        run: xcodebuild -project 'Zipline Classic/Zipline Classic.xcodeproj' -scheme 'Zipline Classic' -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+        run: >-
+          xcodebuild -project 'Zipline Classic/Zipline Classic.xcodeproj'
+          -scheme 'Zipline Classic'
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO build
