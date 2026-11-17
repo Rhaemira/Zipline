@@ -223,7 +223,7 @@ struct ZiplineHomeView: View {
                     let checkpoint = game.nextCheckpoint
                     if let index = route.firstIndex(where: { game.puzzle.number(at: $0) == checkpoint }) {
                         hintedPath = Array(route.prefix(through: index))
-                        hintMessage = "Follow the highlighted route to checkpoint \\(checkpoint). Your path has been rewound to the last correct position."
+                        hintMessage = "Follow the highlighted route to checkpoint \(checkpoint). Your path has been rewound to the last correct position."
                     } else {
                         hintedPath = route
                         hintMessage = "Follow the highlighted route to continue the puzzle."
