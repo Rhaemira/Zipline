@@ -1,0 +1,14 @@
+# Created by Amirali Yazdani.
+# Xcode
+.DS_Store
+*.xcuserstate
+xcuserdata/
+DerivedData/
+*.xcarchive
+*.ipa
+# Swift Package Manager
+.build/
+.swiftpm/
+# XcodeGen output
+Zipline.xcodeproj/
+*.xcodeproj/
