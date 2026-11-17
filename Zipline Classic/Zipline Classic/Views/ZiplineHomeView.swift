@@ -5,7 +5,6 @@
 //  Created by Amirali Yazdani.
 //
 import SwiftUI
-import ZiplineCore
 import UIKit
 
 struct ZiplineHomeView: View {
