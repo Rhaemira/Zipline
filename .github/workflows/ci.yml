@@ -14,6 +14,13 @@ on:
 permissions:
   contents: read
 jobs:
+  repository-hygiene:
+    name: Repository integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify project separation and assets
+        run: bash Scripts/verify-repository.sh
   core-tests:
     name: Puzzle engine tests
     runs-on: macos-26
