@@ -1,0 +1,27 @@
+// !$*UTF8*$!
+{
+ archiveVersion = 1; classes = {}; objectVersion = 56;
+ objects = {
+  A001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/ZiplineClassicApp.swift"; sourceTree = "<group>"; };
+  A002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/ZiplineHomeView.swift"; sourceTree = "<group>"; };
+  A003 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/ZiplineStyle.swift"; sourceTree = "<group>"; };
+  A004 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/ZipPuzzle.swift"; sourceTree = "<group>"; };
+  A005 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+  A006 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zipline Classic.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+  B001 = {isa = PBXBuildFile; fileRef = A001; }; B002 = {isa = PBXBuildFile; fileRef = A002; }; B003 = {isa = PBXBuildFile; fileRef = A003; }; B004 = {isa = PBXBuildFile; fileRef = A004; }; B005 = {isa = PBXBuildFile; fileRef = A005; };
+  C001 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B001,B002,B003,B004,); runOnlyForDeploymentPostprocessing = 0; };
+  C002 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (B005,); runOnlyForDeploymentPostprocessing = 0; };
+  C003 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+  D001 = {isa = PBXGroup; children = (A001,A002,A003,A004,A005,D002,); sourceTree = "<group>"; };
+  D002 = {isa = PBXGroup; children = (A006,); name = Products; sourceTree = "<group>"; };
+  E001 = {isa = PBXNativeTarget; buildConfigurationList = F002; buildPhases = (C001,C003,C002,); buildRules = (); dependencies = (); name = "Zipline Classic"; productName = "Zipline Classic"; productReference = A006; productType = "com.apple.product-type.application"; };
+  E002 = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 2600; TargetAttributes = {E001 = {CreatedOnToolsVersion = 26.0;};};}; buildConfigurationList = F001; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en,Base,); mainGroup = D001; productRefGroup = D002; projectDirPath = ""; projectRoot = ""; targets = (E001,); };
+  F001 = {isa = XCConfigurationList; buildConfigurations = (G001,G002,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+  F002 = {isa = XCConfigurationList; buildConfigurations = (G003,G004,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+  G001 = {isa = XCBuildConfiguration; buildSettings = {IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;}; name = Debug; };
+  G002 = {isa = XCBuildConfiguration; buildSettings = {IPHONEOS_DEPLOYMENT_TARGET = 15.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; SWIFT_COMPILATION_MODE = wholemodule;}; name = Release; };
+  G003 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Zipline Classic"; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; PRODUCT_BUNDLE_IDENTIFIER = com.amiraliyazdani.zipline.classic; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1";}; name = Debug; };
+  G004 = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Zipline Classic"; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; PRODUCT_BUNDLE_IDENTIFIER = com.amiraliyazdani.zipline.classic; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1"; SWIFT_COMPILATION_MODE = wholemodule;}; name = Release; };
+ };
+ rootObject = E002;
+}
