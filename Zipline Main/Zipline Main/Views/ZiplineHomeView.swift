@@ -166,7 +166,7 @@ struct ZiplineHomeView: View {
         .frame(width: side, height: side).contentShape(Rectangle())
         .accessibilityElement().accessibilityLabel(number.map { "Cell, checkpoint \($0)" } ?? "Cell")
         .accessibilityAddTraits(.isButton)
-        .accessibilityAction(.activate) { handle(point) }
+        .accessibilityAction { handle(point) }
     }
 
     private var controls: some View {
