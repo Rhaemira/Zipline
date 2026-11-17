@@ -284,7 +284,8 @@ struct ZiplineHomeView: View {
                 instructionRow("02", "Draw one continuous path", "Move up, down, left, or right. Diagonal moves are not allowed.")
                 instructionRow("03", "Connect in order", "Visit each numbered checkpoint in ascending order.")
                 instructionRow("04", "Fill every cell", "Visit every square exactly once and finish on the highest number.")
-                instructionRow("TIP", "Plan ahead", "Avoid leaving isolated cells or trapping a checkpoint behind your path.")
+                instructionRow("05", "Respect the walls", "Thick borders between neighboring cells block movement. Find a route around them.")
+                instructionRow("TIP", "Use Hint to recover", "If you take a wrong turn, Hint rewinds to the last correct position and traces the route to the next checkpoint.")
             }
             .navigationTitle("How to play").navigationBarItems(trailing: Button("Done") { showHowTo = false })
         }
