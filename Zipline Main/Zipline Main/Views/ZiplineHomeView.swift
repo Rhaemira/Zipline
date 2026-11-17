@@ -122,7 +122,21 @@ struct ZiplineHomeView: View {
                 let gap: CGFloat = 5
                 let side = min((proxy.size.width - CGFloat(size - 1) * gap) / CGFloat(size), 62)
                 let boardWidth = side * CGFloat(size) + gap * CGFloat(size - 1)
-                VStack(spacing: gap) {
+                ZStack {
+                    Canvas { context, _ in
+                        let points = game.path + hintedPath
+                        guard points.count > 1 else { return }
+                        var route = Path()
+                        for (index, point) in points.enumerated() {
+                            let center = CGPoint(
+                                x: (proxy.size.width - boardWidth) / 2 + CGFloat(point.column) * (side + gap) + side / 2,
+                                y: CGFloat(point.row) * (side + gap) + side / 2
+                            )
+                            if index == 0 { route.move(to: center) } else { route.addLine(to: center) }
+                        }
+                        context.stroke(route, with: .color(.cyan), style: StrokeStyle(lineWidth: max(4, side * 0.12), lineCap: .round, lineJoin: .round))
+                    }
+                    VStack(spacing: gap) {
                     ForEach(0..<size, id: \.self) { row in
                         HStack(spacing: gap) {
                             ForEach(0..<size, id: \.self) { column in
@@ -131,8 +145,9 @@ struct ZiplineHomeView: View {
                         }
                     }
                 }
-                .frame(width: boardWidth, height: boardWidth)
-                .position(x: proxy.size.width / 2, y: proxy.size.height / 2)
+                    .frame(width: boardWidth, height: boardWidth)
+                    .position(x: proxy.size.width / 2, y: proxy.size.height / 2)
+                }
                 .contentShape(Rectangle())
                 .simultaneousGesture(DragGesture(minimumDistance: 0).onChanged { value in
                     let stride = side + gap
